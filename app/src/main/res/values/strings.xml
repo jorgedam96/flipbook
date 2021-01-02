@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">flipbook</string>
+    <string name="mapa">Mapa</string>
+    <string name="buscar">Buscar</string>
+    <string name="subir">Subir</string>
+    <string name="usuarios">Usuarios</string>
+    <string name="perfil">Perfil</string>
+    <string name="login">Login</string>
+    <string name="contrasena">Contraseña</string>
+    <string name="usuario">Usuario</string>
+    <string name="entrar">Entrar</string>
+    <string name="registro">Registro</string>
+    <string name="atr_s">Atrás</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="errorLogin">No ha sido posible iniciar sesión</string>
+    <string name="errorRegistro">Error al registrar la cuenta</string>
+    <string name="lecturas_recientes">Lecturas recientes</string>
+    <string name="libros_subidos">Libros subidos</string>
+    <string name="titulo">Titulo</string>
+    <string name="autor">Autor</string>
+    <string name="genero">Género</string>
+    <string name="isbn">ISBN</string>
+    <string name="escanear">Escanear</string>
+    <string name="subir_libro">Subir libro</string>
+    <string name="escaneando">Escaneando código...</string>
+    <string name="cancelado">Cancelado</string>
+    <string name="escaneado">Escaneado: </string>
+</resources>

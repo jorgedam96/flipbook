@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_mapa">
+
+    <fragment
+        android:id="@+id/navigation_mapa"
+        android:name="com.cifpvirgendegracia.flipbook.ui.mapa.MapaFragment"
+        android:label="@string/mapa"
+        tools:layout="@layout/fragment_mapa" />
+
+    <fragment
+        android:id="@+id/navigation_buscar"
+        android:name="com.cifpvirgendegracia.flipbook.ui.buscar.BuscarFragment"
+        android:label="@string/buscar"
+        tools:layout="@layout/fragment_buscar" />
+
+    <fragment
+        android:id="@+id/navigation_subir"
+        android:name="com.cifpvirgendegracia.flipbook.ui.subir.SubirFragment"
+        android:label="@string/subir"
+        tools:layout="@layout/fragment_subir" />
+    <fragment
+        android:id="@+id/navigation_usuarios"
+        android:name="com.cifpvirgendegracia.flipbook.ui.usuarios.UsuariosFragment"
+        android:label="@string/usuarios"
+        tools:layout="@layout/fragment_usuarios" />
+    <fragment
+        android:id="@+id/navigation_perfil"
+        android:name="com.cifpvirgendegracia.flipbook.ui.perfil.PerfilFragment"
+        android:label="@string/perfil"
+        tools:layout="@layout/fragment_perfil" />
+</navigation>

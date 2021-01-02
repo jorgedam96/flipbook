@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "150532065423",
+    "project_id": "flipbook-538b9",
+    "storage_bucket": "flipbook-538b9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:150532065423:android:caeda69b578f9eeeb088fa",
+        "android_client_info": {
+          "package_name": "com.cifpvirgendegracia.flipbook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "150532065423-54b8k5ml3ihmrsfdkib8ihn2l2a73s25.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCloA0PM2EMm7PQ1hBwfJfOhSltu5FxhLk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "150532065423-54b8k5ml3ihmrsfdkib8ihn2l2a73s25.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
