@@ -12,8 +12,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.OAuthProvider
 
 
 class LoginActivity : AppCompatActivity() {
@@ -21,10 +25,11 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var etPass: EditText
     private val RC_SIGN_IN = 123
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
+        //loginTwitter()
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .build()
@@ -38,9 +43,9 @@ class LoginActivity : AppCompatActivity() {
         val btnEntrar = findViewById<Button>(R.id.btnEntrar)
         btnEntrar.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("tipo","email")
-            intent.putExtra("email",etUsuario.text.toString())
-            intent.putExtra("pass",etPass.text.toString())
+            intent.putExtra("tipo", "email")
+            intent.putExtra("email", etUsuario.text.toString())
+            intent.putExtra("pass", etPass.text.toString())
 
             if (!etPass.text.isEmpty() && !etUsuario.text.isEmpty()) {
                 try {
@@ -82,6 +87,49 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    private fun loginTwitter() {
+        val provider = OAuthProvider.newBuilder("twitter.com")
+
+        val pendingResultTask: Task<AuthResult> =
+            FirebaseAuth.getInstance().pendingAuthResult as Task<AuthResult>
+        if (pendingResultTask != null) {
+            // There's something already here! Finish the sign-in for your user.
+            pendingResultTask
+                .addOnSuccessListener {
+                    // User is signed in.
+                    // IdP data available in
+                    // authResult.getAdditionalUserInfo().getProfile().
+                    // The OAuth access token can also be retrieved:
+                    // authResult.getCredential().getAccessToken().
+                    // The OAuth secret can be retrieved by calling:
+                    // authResult.getCredential().getSecret().
+                }
+                .addOnFailureListener {
+                    // Handle failure.
+                }
+        } else {
+            // There's no pending result so you need to start the sign-in flow.
+            // See below.
+        }
+
+        FirebaseAuth.getInstance()
+            .startActivityForSignInWithProvider( /* activity= */this, provider.build())
+            .addOnSuccessListener(
+                OnSuccessListener<AuthResult?> {
+                    // User is signed in.
+                    // IdP data available in
+                    // authResult.getAdditionalUserInfo().getProfile().
+                    // The OAuth access token can also be retrieved:
+                    // authResult.getCredential().getAccessToken().
+                    // The OAuth secret can be retrieved by calling:
+                    // authResult.getCredential().getSecret().
+                })
+            .addOnFailureListener(
+                OnFailureListener {
+                    // Handle failure.
+                })
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -99,10 +147,10 @@ class LoginActivity : AppCompatActivity() {
             val account = completedTask.getResult(ApiException::class.java)
 
             // Signed in successfully, show authenticated UI.
-            Log.e("Google", account.email.toString() )
+            Log.e("Google", account.email.toString())
             val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("email",account.email.toString())
-            intent.putExtra("tipo","google")
+            intent.putExtra("email", account.email.toString())
+            intent.putExtra("tipo", "google")
             startActivity(intent)
 
         } catch (e: ApiException) {

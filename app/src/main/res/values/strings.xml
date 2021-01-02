@@ -25,4 +25,14 @@
     <string name="escaneando">Escaneando código...</string>
     <string name="cancelado">Cancelado</string>
     <string name="escaneado">Escaneado: </string>
+    <string name="iniciar_sesi_n">Iniciar sesión</string>
+    <string name="estado">Estado</string>
+
+
+    <string-array name="estados">
+        <item>Nuevo</item>
+        <item>Buen estado</item>
+        <item>Usado</item>
+        <item>Poco legible</item>
+    </string-array>
 </resources>

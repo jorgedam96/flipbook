@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.subir.SubirFragment">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <LinearLayout
@@ -55,7 +54,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_weight="1"
-                android:src="@android:drawable/ic_menu_gallery" />
+                android:src="@drawable/ic_add_foto" />
 
             <View
                 android:layout_width="0dp"
@@ -103,7 +102,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -127,31 +125,50 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="@color/azul"
-                android:fontFamily="@font/roboto"
                 android:drawableLeft="@drawable/ic_cam"
+                android:layout_marginEnd="10dp"
+
+                android:fontFamily="@font/roboto"
                 android:text="@string/escanear"
+                android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="15sp" />
         </LinearLayout>
 
-        <Spinner
-            android:id="@+id/spinnerEstadoSubir"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="20dp" />
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvEstadoSubir"
+                android:layout_width="wrap_content"                android:layout_marginStart="10dp"
+
+                android:layout_height="wrap_content"
+                android:text="@string/estado" />
+
+            <Spinner
+                android:id="@+id/spinnerEstadoSubir"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="20dp" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/btnSubirLibSubir"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/azul"
+
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/azul"
             android:fontFamily="@font/roboto"
             android:text="@string/subir_libro"
+            android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="15sp" />
     </LinearLayout>
