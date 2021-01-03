@@ -8,9 +8,14 @@ class Libro(
     var genero: String,
     var foto: String,
     var estado: String,
+    var usuario: String,
     var localizacion: Localizacion
 ) {
+    constructor() : this("", "", "", "", "", "", "", "", Localizacion())
+
     override fun toString(): String {
-        return "Libro(id='$id', titulo='$titulo', isbn='$isbn', autor='$autor', genero='$genero', foto='$foto', estado='$estado', localizacion=$localizacion)"
+        return "Libro(id='$id', titulo='$titulo', isbn='$isbn', autor='$autor', genero='$genero', foto='$foto', estado='$estado', usuario='$usuario', localizacion=$localizacion)"
     }
+
+
 }

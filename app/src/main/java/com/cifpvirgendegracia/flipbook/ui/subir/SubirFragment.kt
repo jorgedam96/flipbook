@@ -1,7 +1,9 @@
 package com.cifpvirgendegracia.flipbook.ui.subir
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Dialog
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -16,15 +18,21 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.cifpvirgendegracia.flipbook.R
 import com.cifpvirgendegracia.flipbook.model.Libro
 import com.cifpvirgendegracia.flipbook.model.Localizacion
+import com.cifpvirgendegracia.flipbook.util.Utilidades
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.MapsInitializer
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -37,6 +45,7 @@ import java.io.ByteArrayOutputStream
 
 class SubirFragment : Fragment() {
 
+    private lateinit var marcador: Marker
     private var fotoCambiada: Boolean = false
     private lateinit var root: View
     private lateinit var etTitulo: TextInputEditText
@@ -116,50 +125,124 @@ class SubirFragment : Fragment() {
         }
 
         btnSubir.setOnClickListener {
+            var loc = abrirDialogoMapa()
 
-            if (fotoCambiada && !etTitulo.text.toString()
-                    .isEmpty() && !etISBN.text.toString().isEmpty() && !etAutor.text.toString()
-                    .isEmpty() && !etGenero.text.toString()
-                    .isEmpty() && !spinner.selectedItem.toString().isEmpty()
-            ) {
-                var d = btnFoto.drawable
-
-                val bitmap = (d as BitmapDrawable).bitmap
-                val stream = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                val bitmapdata: ByteArray = stream.toByteArray()
-
-
-                val loc = Localizacion(database.push().key.toString(), "lat", "lon")
-                val libro =
-                    Libro(
-                        database.push().key.toString(),
-                        etTitulo.text.toString(),
-                        etISBN.text.toString(),
-                        etAutor.text.toString(),
-                        etGenero.text.toString(),
-                        String(bitmapdata),
-                        spinner.selectedItem.toString(), loc
-                    )
-                database.child(libro.id).setValue(libro).addOnSuccessListener {
-                    Toast.makeText(activity, "Publicación subida", Toast.LENGTH_SHORT).show()
-                    btnFoto.setImageDrawable(activity?.getDrawable(R.drawable.ic_add_foto))
-                    etTitulo.setText("")
-                    etISBN.setText("")
-                    etAutor.setText("")
-                    etGenero.setText("")
-                    spinner.setSelection(0)
-                }
-            } else {
-                Toast.makeText(
-                    activity,
-                    "No ha sido posible subir la publicación",
-                    Toast.LENGTH_SHORT
-                ).show()
-
-            }
         }
 
+    }
+
+    private fun subir() {
+        if (fotoCambiada && !etTitulo.text.toString()
+                .isEmpty() && !etISBN.text.toString().isEmpty() && !etAutor.text.toString()
+                .isEmpty() && !etGenero.text.toString()
+                .isEmpty() && !spinner.selectedItem.toString().isEmpty()
+        ) {
+            var d = btnFoto.drawable
+
+            val bitmap = (d as BitmapDrawable).bitmap
+            val stream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+            val bitmapdata: ByteArray = stream.toByteArray()
+
+
+            val loc = Localizacion(
+                database.push().key.toString(),
+                marcador.position.latitude.toString(),
+                marcador.position.longitude.toString()
+            )
+            //TODO usuario firebase
+            val libro =
+                Libro(
+                    database.push().key.toString(),
+                    etTitulo.text.toString(),
+                    etISBN.text.toString(),
+                    etAutor.text.toString(),
+                    etGenero.text.toString(),
+                    Utilidades.BitMapToString(bitmap),
+                    spinner.selectedItem.toString(), "jorgedam96@gmail.com",
+                    loc
+                )
+            database.child(libro.id).setValue(libro).addOnSuccessListener {
+                Toast.makeText(activity, "Publicación subida", Toast.LENGTH_SHORT).show()
+                btnFoto.setImageDrawable(activity?.getDrawable(R.drawable.ic_add_foto))
+                etTitulo.setText("")
+                etISBN.setText("")
+                etAutor.setText("")
+                etGenero.setText("")
+                spinner.setSelection(0)
+            }
+        } else {
+            Toast.makeText(
+                activity,
+                "No ha sido posible subir la publicación",
+                Toast.LENGTH_SHORT
+            ).show()
+
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun abrirDialogoMapa() {
+
+        val dialog = Dialog(activity as Activity)
+
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        /////make map clear
+        /////make map clear
+        dialog.window!!.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+
+        dialog.setContentView(R.layout.dialog_map) ////your custom content
+
+
+        val mMapView = dialog.findViewById<View>(R.id.mapViewDialog) as MapView
+        MapsInitializer.initialize(activity)
+
+        mMapView.onCreate(dialog.onSaveInstanceState())
+        mMapView.onResume()
+
+
+        mMapView.getMapAsync { googleMap ->
+            val preferencias = activity?.getSharedPreferences("loc", Context.MODE_PRIVATE)
+            if (preferencias?.getString("lon", null) != null && preferencias.getString(
+                    "lat",
+                    null
+                ) != null
+            ) {
+                val posisiabsen = LatLng(
+                    preferencias.getString("lat", null)!!.toDouble(),
+                    preferencias.getString("lon", null)!!.toDouble()
+                )
+                googleMap.setOnMarkerDragListener(object : OnMarkerDragListener {
+                    override fun onMarkerDragStart(marker: Marker) {}
+                    override fun onMarkerDragEnd(marker: Marker) {
+                        marcador = marker
+                    }
+
+                    override fun onMarkerDrag(marker: Marker) {}
+                })
+                googleMap.isMyLocationEnabled = true
+
+                marcador = googleMap.addMarker(
+                    MarkerOptions().position(posisiabsen).title("Ubicación para el libro")
+                        .draggable(true)
+                )
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(posisiabsen))
+                googleMap.uiSettings.isZoomControlsEnabled = true
+
+            } else {
+            }
+
+        }
+
+
+        val dialogButton = dialog.findViewById<View>(R.id.btn_dialog) as Button
+
+        dialogButton.setOnClickListener {
+            subir()
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
 
