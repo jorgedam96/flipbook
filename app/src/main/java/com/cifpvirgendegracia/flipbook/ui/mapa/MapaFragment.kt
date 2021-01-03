@@ -150,11 +150,11 @@ class MapaFragment : Fragment(), OnMapReadyCallback {
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location: Location? ->
                 if (location != null) {
-                    mMap.addMarker(
+                    /*mMap.addMarker(
                         MarkerOptions()
                             .position(LatLng(location.latitude, location.longitude))
                             .title("Ud está aquí")
-                    )
+                    )*/
                     val preferencias = activity?.getSharedPreferences("loc", Context.MODE_PRIVATE)
                     val editor = preferencias?.edit()
                     editor?.putString("lat", location.latitude.toString())
