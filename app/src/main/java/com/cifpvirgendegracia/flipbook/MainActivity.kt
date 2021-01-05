@@ -27,6 +27,7 @@ import com.google.zxing.integration.android.IntentIntegrator
 class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var isbn: String
+    lateinit var usuarioLogueado: String
     var finEscaneado = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +51,7 @@ class MainActivity : AppCompatActivity() {
             Log.d("Ha entrado con google", intent.getSerializableExtra("email").toString())
 
         }
+        usuarioLogueado = intent.getSerializableExtra("email").toString();
 
 
         if (ContextCompat.checkSelfPermission(

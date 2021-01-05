@@ -27,6 +27,7 @@
     <string name="escaneado">Escaneado: </string>
     <string name="iniciar_sesi_n">Iniciar sesión</string>
     <string name="estado">Estado</string>
+    <string name="enciendagps">Por favor encienda el GPS</string>
 
 
     <string-array name="estados">

@@ -22,6 +22,7 @@ import android.view.*
 import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import com.cifpvirgendegracia.flipbook.MainActivity
 import com.cifpvirgendegracia.flipbook.R
 import com.cifpvirgendegracia.flipbook.model.Libro
 import com.cifpvirgendegracia.flipbook.model.Localizacion
@@ -94,7 +95,7 @@ class SubirFragment : Fragment() {
 
     private fun listeners() {
         btnQR.setOnClickListener {
-            scanQRCode()
+            escanerQR()
         }
         btnFoto.setOnClickListener {
             //if system os is Marshmallow or Above, we need to request runtime permission
@@ -116,19 +117,17 @@ class SubirFragment : Fragment() {
                     requestPermissions(permission, PERMISSION_CODE)
                 } else {
                     //permission already granted
-                    openCamera()
+                    abrirCamara()
                 }
             } else {
                 //system os is < marshmallow
-                openCamera()
+                abrirCamara()
             }
         }
-
         btnSubir.setOnClickListener {
             var loc = abrirDialogoMapa()
 
         }
-
     }
 
     private fun subir() {
@@ -150,7 +149,6 @@ class SubirFragment : Fragment() {
                 marcador.position.latitude.toString(),
                 marcador.position.longitude.toString()
             )
-            //TODO usuario firebase
             val libro =
                 Libro(
                     database.push().key.toString(),
@@ -159,7 +157,7 @@ class SubirFragment : Fragment() {
                     etAutor.text.toString(),
                     etGenero.text.toString(),
                     Utilidades.BitMapToString(bitmap),
-                    spinner.selectedItem.toString(), "jorgedam96@gmail.com",
+                    spinner.selectedItem.toString(), (activity as MainActivity).usuarioLogueado,
                     loc
                 )
             database.child(libro.id).setValue(libro).addOnSuccessListener {
@@ -246,7 +244,7 @@ class SubirFragment : Fragment() {
     }
 
 
-    private fun openCamera() {
+    private fun abrirCamara() {
         val values = ContentValues()
         values.put(MediaStore.Images.Media.TITLE, "New Picture")
         values.put(MediaStore.Images.Media.DESCRIPTION, "From the Camera")
@@ -285,15 +283,13 @@ class SubirFragment : Fragment() {
         }
     }
 
-    private fun scanQRCode() {
+    private fun escanerQR() {
 
         val integrator = IntentIntegrator(activity).apply {
             captureActivity = CaptureActivity::class.java
-
+            setBeepEnabled(false)
             setOrientationLocked(false)
             setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES)
-
-            //setPrompt(getString(R.string.escaneando))
         }
 
         integrator.initiateScan()
@@ -324,14 +320,14 @@ class SubirFragment : Fragment() {
             //set image captured to image view
 
             btnFoto.setImageURI(image_uri)
-            btnFoto.setImageDrawable(resize(btnFoto.drawable))
+            btnFoto.setImageDrawable(redimensionar(btnFoto.drawable))
             fotoCambiada = true
         }
     }
 
-    private fun resize(image: Drawable): Drawable? {
+    private fun redimensionar(image: Drawable): Drawable? {
         val b = (image as BitmapDrawable).bitmap
-        val bitmapResized = Bitmap.createScaledBitmap(b, 500, 500, false)
+        val bitmapResized = Utilidades.resize(b, 500, 500)
         return BitmapDrawable(resources, bitmapResized)
     }
 }

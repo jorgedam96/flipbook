@@ -1,9 +1,12 @@
 package com.cifpvirgendegracia.flipbook.util
 
+import android.R.attr.maxHeight
+import android.R.attr.maxWidth
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
 import java.io.ByteArrayOutputStream
+
 
 object Utilidades {
     fun BitMapToString(bitmap: Bitmap): String {
@@ -20,6 +23,29 @@ object Utilidades {
         } catch (e: Exception) {
             e.message
             null
+        }
+    }
+
+
+
+     fun resize(image: Bitmap, maxWidth: Int, maxHeight: Int): Bitmap? {
+        var image = image
+        return if (maxHeight > 0 && maxWidth > 0) {
+            val width = image.width
+            val height = image.height
+            val ratioBitmap = width.toFloat() / height.toFloat()
+            val ratioMax = maxWidth.toFloat() / maxHeight.toFloat()
+            var finalWidth = maxWidth
+            var finalHeight = maxHeight
+            if (ratioMax > 1) {
+                finalWidth = (maxHeight.toFloat() * ratioBitmap).toInt()
+            } else {
+                finalHeight = (maxWidth.toFloat() / ratioBitmap).toInt()
+            }
+            image = Bitmap.createScaledBitmap(image, finalWidth, finalHeight, true)
+            image
+        } else {
+            image
         }
     }
 }

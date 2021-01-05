@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.OAuthProvider
 
 
-class LoginActivity : AppCompatActivity() {
+class  LoginActivity : AppCompatActivity() {
     private lateinit var etUsuario: EditText
     private lateinit var etPass: EditText
     private val RC_SIGN_IN = 123
@@ -29,13 +29,11 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        //loginTwitter()
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .build()
         var mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
         val account = GoogleSignIn.getLastSignedInAccount(this)
-        println(account.toString())
 
         etUsuario = findViewById(R.id.etUsuarioLogin)
         etPass = findViewById(R.id.etPassLogin)
@@ -47,31 +45,7 @@ class LoginActivity : AppCompatActivity() {
             intent.putExtra("email", etUsuario.text.toString())
             intent.putExtra("pass", etPass.text.toString())
 
-            if (!etPass.text.isEmpty() && !etUsuario.text.isEmpty()) {
-                try {
-
-
-                    FirebaseAuth.getInstance()
-                        .signInWithEmailAndPassword(
-                            etUsuario.text.toString(),
-                            etPass.text.toString()
-                        ).addOnCompleteListener {
-                            if (it.isSuccessful) {
-                                startActivity(intent)
-
-                            } else {
-                                Toast.makeText(
-                                    this,
-                                    getString(R.string.errorLogin),
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-
-            }
+            loginEmail(intent)
         }
 
         val btnReg = findViewById<Button>(R.id.btnRegistro)
@@ -87,48 +61,31 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun loginTwitter() {
-        val provider = OAuthProvider.newBuilder("twitter.com")
+    private fun loginEmail(intent: Intent) {
+        if (!etPass.text.isEmpty() && !etUsuario.text.isEmpty()) {
+            try {
+                FirebaseAuth.getInstance()
+                    .signInWithEmailAndPassword(
+                        etUsuario.text.toString(),
+                        etPass.text.toString()
+                    ).addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            startActivity(intent)
 
-        val pendingResultTask: Task<AuthResult> =
-            FirebaseAuth.getInstance().pendingAuthResult as Task<AuthResult>
-        if (pendingResultTask != null) {
-            // There's something already here! Finish the sign-in for your user.
-            pendingResultTask
-                .addOnSuccessListener {
-                    // User is signed in.
-                    // IdP data available in
-                    // authResult.getAdditionalUserInfo().getProfile().
-                    // The OAuth access token can also be retrieved:
-                    // authResult.getCredential().getAccessToken().
-                    // The OAuth secret can be retrieved by calling:
-                    // authResult.getCredential().getSecret().
-                }
-                .addOnFailureListener {
-                    // Handle failure.
-                }
-        } else {
-            // There's no pending result so you need to start the sign-in flow.
-            // See below.
+                        } else {
+                            Toast.makeText(
+                                this,
+                                getString(R.string.errorLogin),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
-
-        FirebaseAuth.getInstance()
-            .startActivityForSignInWithProvider( /* activity= */this, provider.build())
-            .addOnSuccessListener(
-                OnSuccessListener<AuthResult?> {
-                    // User is signed in.
-                    // IdP data available in
-                    // authResult.getAdditionalUserInfo().getProfile().
-                    // The OAuth access token can also be retrieved:
-                    // authResult.getCredential().getAccessToken().
-                    // The OAuth secret can be retrieved by calling:
-                    // authResult.getCredential().getSecret().
-                })
-            .addOnFailureListener(
-                OnFailureListener {
-                    // Handle failure.
-                })
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

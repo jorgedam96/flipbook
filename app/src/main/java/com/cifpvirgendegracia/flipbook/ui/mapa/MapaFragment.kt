@@ -4,10 +4,6 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
@@ -29,7 +25,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.getValue
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
@@ -69,17 +64,13 @@ class MapaFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap?) {
         mMap = googleMap!!
         verMarcadores()
-
-        fetchLocation(mMap)
+        cargarLoc(mMap)
 
     }
 
     private fun verMarcadores() {
-
-
         val childEventListener = object : ChildEventListener {
             override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
-
 
                 var libro: Libro? = null
                 dataSnapshot.getValue(Libro::class.java)?.let { libro = it }
@@ -99,26 +90,21 @@ class MapaFragment : Fragment(), OnMapReadyCallback {
                         .icon(
                             BitmapDescriptorFactory.fromBitmap(
                                 Utilidades.StringToBitMap(libro?.foto)?.let { it1 ->
-                                    Bitmap.createScaledBitmap(it1, 300, 300, false)
+                                    Utilidades.resize(it1, 300, 300)
                                 })
                         )
                 })
-
             }
-
             override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
                 Log.d(TAG, "onChildChanged: ${dataSnapshot.key}")
-
             }
 
             override fun onChildRemoved(dataSnapshot: DataSnapshot) {
                 Log.d(TAG, "onChildRemoved:" + dataSnapshot.key!!)
-
             }
 
             override fun onChildMoved(dataSnapshot: DataSnapshot, previousChildName: String?) {
                 Log.d(TAG, "onChildMoved:" + dataSnapshot.key!!)
-
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -129,13 +115,12 @@ class MapaFragment : Fragment(), OnMapReadyCallback {
                 ).show()
             }
         }
+
         database.addChildEventListener(childEventListener)
-
-
     }
 
 
-    private fun fetchLocation(mMap: GoogleMap) {
+    private fun cargarLoc(mMap: GoogleMap) {
         if (ActivityCompat.checkSelfPermission(
                 root.context,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -150,18 +135,14 @@ class MapaFragment : Fragment(), OnMapReadyCallback {
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location: Location? ->
                 if (location != null) {
-                    /*mMap.addMarker(
-                        MarkerOptions()
-                            .position(LatLng(location.latitude, location.longitude))
-                            .title("Ud está aquí")
-                    )*/
+
                     val preferencias = activity?.getSharedPreferences("loc", Context.MODE_PRIVATE)
                     val editor = preferencias?.edit()
                     editor?.putString("lat", location.latitude.toString())
                     editor?.putString("lon", location.longitude.toString())
                     editor?.apply()
                 } else {
-                    Toast.makeText(root.context, "Por favor encienda el GPS", Toast.LENGTH_SHORT)
+                    Toast.makeText(root.context, getString(R.string.enciendagps), Toast.LENGTH_SHORT)
                         .show()
                 }
             }

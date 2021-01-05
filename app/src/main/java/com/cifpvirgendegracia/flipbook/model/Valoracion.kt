@@ -1,14 +1,16 @@
 package com.cifpvirgendegracia.flipbook.model
 
 class Valoracion(
-    var id: Long,
-    var idUsuario: Long,
-    var idLibro: Long,
+    var id: String,
+    var idUsuario: String,
     var valoracion: String,
 
     ) {
 
+    constructor() : this("", "", "",)
+
     override fun toString(): String {
-        return "Valoracion(id=$id, idUsuario=$idUsuario, idLibro=$idLibro, valoracion='$valoracion')"
+        return "Valoracion(id='$id', idUsuario='$idUsuario', valoracion='$valoracion')"
     }
+
 }
