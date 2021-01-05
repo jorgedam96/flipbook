@@ -3,18 +3,21 @@ package com.cifpvirgendegracia.flipbook.ui.mapa
 import android.Manifest
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.cifpvirgendegracia.flipbook.R
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import com.cifpvirgendegracia.flipbook.R
 import com.cifpvirgendegracia.flipbook.model.Libro
+import com.cifpvirgendegracia.flipbook.ui.detalle.DetalleLibroFragment
 import com.cifpvirgendegracia.flipbook.util.Utilidades
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -23,6 +26,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
@@ -39,7 +43,8 @@ class MapaFragment : Fragment(), OnMapReadyCallback {
     var storage: FirebaseStorage? = null
     var storageReference: StorageReference? = null
     var libros = ArrayList<Libro>()
-
+    var mapMarcadoresLibros: HashMap<Marker, Libro> = HashMap()
+    var listaMarcadores: ArrayList<Marker> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -78,7 +83,7 @@ class MapaFragment : Fragment(), OnMapReadyCallback {
 
                 Log.e("OBJ", libros.toString())
 
-                mMap.addMarker(libro?.localizacion?.latitud?.toDouble()?.let {
+                var marcador = mMap.addMarker(libro?.localizacion?.latitud?.toDouble()?.let {
                     LatLng(
                         it, libro?.localizacion?.longitud?.toDouble()!!
                     )
@@ -94,7 +99,30 @@ class MapaFragment : Fragment(), OnMapReadyCallback {
                                 })
                         )
                 })
+
+                marcador.isDraggable = true
+                libro?.let { mapMarcadoresLibros.put(marcador, it) }
+
+                mMap.setOnMarkerDragListener(object : GoogleMap.OnMarkerDragListener {
+                    override fun onMarkerDragStart(marker: Marker) {
+                        //Ver detalles del libro.
+                        val nextFrag = DetalleLibroFragment(mapMarcadoresLibros.get(marker))
+                        activity!!.supportFragmentManager.beginTransaction()
+                            .replace(R.id.map, nextFrag, "findThisFragment")
+                            .addToBackStack(null)
+                            .commit()
+
+                    }
+
+                    override fun onMarkerDragEnd(marker: Marker) {
+                        //TODO volver a poner el marcador en su sitio
+
+                    }
+                    override fun onMarkerDrag(marker: Marker) {}
+                })
+
             }
+
             override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
                 Log.d(TAG, "onChildChanged: ${dataSnapshot.key}")
             }
@@ -142,8 +170,14 @@ class MapaFragment : Fragment(), OnMapReadyCallback {
                     editor?.putString("lon", location.longitude.toString())
                     editor?.apply()
                 } else {
-                    Toast.makeText(root.context, getString(R.string.enciendagps), Toast.LENGTH_SHORT)
+                    Toast.makeText(
+                        root.context,
+                        getString(R.string.enciendagps),
+                        Toast.LENGTH_SHORT
+                    )
                         .show()
+                    val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(intent)
                 }
             }
     }
