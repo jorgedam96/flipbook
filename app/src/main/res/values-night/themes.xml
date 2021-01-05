@@ -6,7 +6,7 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>    <!-- Base application theme. -->
-    <style name="Theme.Flipbook" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Flipbook" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>

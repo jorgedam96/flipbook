@@ -44,7 +44,8 @@ class MapaFragment : Fragment(), OnMapReadyCallback {
     var storageReference: StorageReference? = null
     var libros = ArrayList<Libro>()
     var mapMarcadoresLibros: HashMap<Marker, Libro> = HashMap()
-    var listaMarcadores: ArrayList<Marker> = ArrayList()
+    var mapMarcadoresPosicion: HashMap<String, LatLng> = HashMap()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,7 +60,7 @@ class MapaFragment : Fragment(), OnMapReadyCallback {
         mapFragment!!.getMapAsync(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity as Activity)
 
-        database = FirebaseDatabase.getInstance().getReference("libros");
+        database = FirebaseDatabase.getInstance().getReference("libros")
         storage = FirebaseStorage.getInstance()
         storageReference = storage!!.reference
 
@@ -102,6 +103,7 @@ class MapaFragment : Fragment(), OnMapReadyCallback {
 
                 marcador.isDraggable = true
                 libro?.let { mapMarcadoresLibros.put(marcador, it) }
+                mapMarcadoresPosicion.put(marcador.id, marcador.position)
 
                 mMap.setOnMarkerDragListener(object : GoogleMap.OnMarkerDragListener {
                     override fun onMarkerDragStart(marker: Marker) {
@@ -116,8 +118,9 @@ class MapaFragment : Fragment(), OnMapReadyCallback {
 
                     override fun onMarkerDragEnd(marker: Marker) {
                         //TODO volver a poner el marcador en su sitio
-
+                        marker.position = mapMarcadoresPosicion.get(marker.id)
                     }
+
                     override fun onMarkerDrag(marker: Marker) {}
                 })
 
