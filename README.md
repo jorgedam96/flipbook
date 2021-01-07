@@ -1,10 +1,11 @@
-# Título del Proyecto
+# FlipBook
 
-_Acá va un párrafo que describa lo que es el proyecto_
+_Se trata de un sistema de Bookcrossing donde los usuarios dejarán libros en lugares
+públicos para que los recojan otros lectores, que después harán lo mismo._
 
 ## Comenzando 🚀
 
-_Estas instrucciones te permitirán obtener una copia del proyecto en funcionamiento en tu máquina local para propósitos de desarrollo y pruebas._
+_Estas instrucciones te permitirán obtener una copia del proyecto en funcionamiento en tu máquina local para propósitos de desarrollo, calificación y pruebas._
 
 Mira **Deployment** para conocer como desplegar el proyecto.
 
