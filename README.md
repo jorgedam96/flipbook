@@ -45,6 +45,10 @@ Puedes encontrar el código del proyecto [Código](https://github.com/jorgedam96
 
 * **Jorge Segade** 
 
+## Kanban
+
+[Trello](https://trello.com/b/yQY4ou3E/flipbook)
+
 
 ## Licencia 📄
 
