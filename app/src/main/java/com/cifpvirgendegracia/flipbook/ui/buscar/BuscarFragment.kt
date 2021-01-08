@@ -24,6 +24,7 @@ import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class BuscarFragment : Fragment() {
@@ -38,9 +39,9 @@ class BuscarFragment : Fragment() {
     lateinit var myAdapter: RecyclerViewAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
 
         root = inflater.inflate(R.layout.fragment_buscar, container, false)
@@ -48,10 +49,7 @@ class BuscarFragment : Fragment() {
         busquedaVoz()
         consultaLibros()
 
-        mSearchView.setOnQueryChangeListener { oldQuery, newQuery ->
-
-            Log.e("QUERY", newQuery)
-        }
+        busquedaEscrito()
 
         recyclerView()
 
@@ -59,9 +57,30 @@ class BuscarFragment : Fragment() {
         return root
     }
 
+    private fun busquedaEscrito() {
+        mSearchView.setOnQueryChangeListener { oldQuery, newQuery ->
+
+            val lista = ArrayList<Libro>()
+            val texto = newQuery.toLowerCase()
+            if (texto != "") {
+                libros.forEach {
+                    if (it.autor.toLowerCase().contains(texto) || it.titulo.toLowerCase().contains(texto) || it.genero.toLowerCase().contains(texto)) {
+                        lista.add(it)
+                    }
+                }
+                myAdapter.setData(lista)
+                myAdapter.notifyDataSetChanged()
+
+            } else {
+                myAdapter.setData(libros)
+                myAdapter.notifyDataSetChanged()
+            }
+        }
+    }
+
     private fun recyclerView() {
         val myrv = root.findViewById(R.id.rvLibros) as RecyclerView
-         myAdapter = activity?.applicationContext?.let { RecyclerViewAdapter(it, libros) }!!
+        myAdapter = activity?.applicationContext?.let { RecyclerViewAdapter(it, libros, this) }!!
         myrv.layoutManager = GridLayoutManager(activity?.applicationContext, 3)
         myrv.adapter = myAdapter
         myAdapter.notifyDataSetChanged()
@@ -82,6 +101,7 @@ class BuscarFragment : Fragment() {
 
 
             }
+
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
                 TODO("Not yet implemented")
@@ -108,8 +128,8 @@ class BuscarFragment : Fragment() {
 
             val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
             intent.putExtra(
-                RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+                    RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                    RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
             )
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
             intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Di un título, un autor o un género.")
@@ -126,10 +146,22 @@ class BuscarFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && data != null) {
             val result = data
-                .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if (result != null) {
                 mSearchView.setSearchText(result[0])
-                //TODO buscar libros con ese texto
+
+                val voz = result[0].toLowerCase()
+                val lista = ArrayList<Libro>()
+                if (voz != "") {
+                    libros.forEach {
+                        if (it.autor.toLowerCase().contains(voz) || it.titulo.toLowerCase().contains(voz) || it.genero.toLowerCase().contains(voz)) {
+                            lista.add(it)
+                        }
+                    }
+                    myAdapter.setData(lista)
+                    myAdapter.notifyDataSetChanged()
+
+                }
             }
         }
     }

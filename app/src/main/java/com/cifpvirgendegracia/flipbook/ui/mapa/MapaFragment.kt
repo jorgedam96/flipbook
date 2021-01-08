@@ -82,7 +82,7 @@ class MapaFragment : Fragment(), OnMapReadyCallback {
                 dataSnapshot.getValue(Libro::class.java)?.let { libro = it }
                 libro?.let { libros.add(it) }
 
-                Log.e("OBJ", libros.toString())
+               // Log.e("OBJ", libros.toString())
 
                 var marcador = mMap.addMarker(libro?.localizacion?.latitud?.toDouble()?.let {
                     LatLng(
