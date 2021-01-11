@@ -1,4 +1,3 @@
-![](https://github.com/jorgedam96/flipbook/blob/main/img/Documentaci%C3%B3nFinal%20(21).jpg)
 ![](https://github.com/jorgedam96/flipbook/blob/main/img/Documentaci%C3%B3nFinal%20(22).jpg)
 ![](https://github.com/jorgedam96/flipbook/blob/main/img/Documentaci%C3%B3nFinal%20(23).jpg)
 ![](https://github.com/jorgedam96/flipbook/blob/main/img/Documentaci%C3%B3nFinal%20(24).jpg)
