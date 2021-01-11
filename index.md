@@ -5,6 +5,7 @@ You can use the [editor on GitHub](https://github.com/jorgedam96/flipbook/edit/g
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
 ### Markdown
+![](https://github.com/jorgedam96/flipbook/blob/main/img/indice.jpg)
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
