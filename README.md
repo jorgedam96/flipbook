@@ -8,6 +8,10 @@ públicos para que los recojan otros lectores, que después harán lo mismo._
 _Estas instrucciones te permitirán obtener una copia del proyecto en funcionamiento en tu máquina local para propósitos de desarrollo, calificación y pruebas._
 
 
+## Manual de uso
+
+[Manual de uso](https://github.com/jorgedam96/flipbook/blob/gh-pages/index.md)
+
 
 ### Pre-requisitos 📋
 
