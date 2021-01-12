@@ -51,6 +51,9 @@ Puedes encontrar el código del proyecto [Código](https://github.com/jorgedam96
 
 [Trello](https://trello.com/b/yQY4ou3E/flipbook)
 
+## Árbol GitFlow
+
+[Árbol GitFlow](https://github.com/jorgedam96/flipbook/network)
 
 ## Licencia 📄
 
