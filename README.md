@@ -42,6 +42,10 @@ Puedes encontrar mucho más de cómo utilizar este proyecto en la [Wiki](https:/
 
 Puedes encontrar el código del proyecto [Código](https://github.com/jorgedam96/flipbook/tree/master)
 
+## Árbol GitFlow 
+
+[Árbol GitFlow](https://github.com/jorgedam96/flipbook/network)
+
 
 ## Autor ✒️
 
