@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">flipbook</string>
+    <string name="mapa">Map</string>
+    <string name="buscar">Search</string>
+    <string name="subir">Upload</string>
+    <string name="usuarios">Users</string>
+    <string name="perfil">Profile</string>
+    <string name="login">Login</string>
+    <string name="contrasena">Password</string>
+    <string name="usuario">User</string>
+    <string name="entrar">Log in</string>
+    <string name="registro">Register</string>
+    <string name="atr_s">Back</string>
+    <string name="registrarse">Sign in</string>
+    <string name="errorLogin">"Login was not possible "</string>
+    <string name="errorRegistro">"Account registration failed "</string>
+    <string name="lecturas_recientes">Recent reads</string>
+    <string name="libros_subidos">Uploaded books</string>
+    <string name="titulo">Title</string>
+    <string name="autor">Author</string>
+    <string name="genero">Genre</string>
+    <string name="escanear">Scan</string>
+    <string name="subir_libro">Upload book</string>
+    <string name="escaneando">Scanning code...</string>
+    <string name="cancelado">Cancelled</string>
+    <string name="escaneado">"Scanned: "</string>
+    <string name="iniciar_sesi_n">Log in</string>
+    <string name="estado">Status</string>
+    <string name="enciendagps">Please turn on GPS</string>
+    <string name="Reservar">Reserve</string>
+    <string name="voz">Voice</string>
+    <string name="los_m_s_populares">"The most popular "</string>
+    <string name="Borrar">Delete</string>
+</resources>
