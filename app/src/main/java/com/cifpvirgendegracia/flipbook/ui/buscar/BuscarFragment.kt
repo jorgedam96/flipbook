@@ -5,7 +5,6 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,9 +16,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arlib.floatingsearchview.FloatingSearchView
-import com.cifpvirgendegracia.flipbook.adapter.RecyclerViewAdapter
+import com.cifpvirgendegracia.flipbook.adapter.LibrosAdapter
 import com.cifpvirgendegracia.flipbook.model.Libro
-import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -35,7 +33,7 @@ class BuscarFragment : Fragment() {
     var storageReference: StorageReference? = null
     var libros = ArrayList<Libro>()
     lateinit var root: View
-    lateinit var myAdapter: RecyclerViewAdapter
+    lateinit var myAdapter: LibrosAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -82,7 +80,7 @@ class BuscarFragment : Fragment() {
     private fun recyclerView() {
         val myrv = root.findViewById(R.id.rvLibros) as RecyclerView
         myAdapter = activity?.applicationContext?.let {
-            RecyclerViewAdapter(
+            LibrosAdapter(
                 it,
                 libros,
                 this,

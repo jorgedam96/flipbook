@@ -10,12 +10,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cifpvirgendegracia.flipbook.MainActivity
 import com.cifpvirgendegracia.flipbook.R
-import com.cifpvirgendegracia.flipbook.adapter.RecyclerViewAdapter
+import com.cifpvirgendegracia.flipbook.adapter.LibrosAdapter
 import com.cifpvirgendegracia.flipbook.model.Libro
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
@@ -34,8 +33,8 @@ class PerfilFragment : Fragment() {
     var storageReference: StorageReference? = null
     var libros = ArrayList<Libro>()
     var librosSubidos = ArrayList<Libro>()
-    lateinit var myAdapter: RecyclerViewAdapter
-    lateinit var myAdapter2: RecyclerViewAdapter
+    lateinit var myAdapter: LibrosAdapter
+    lateinit var myAdapter2: LibrosAdapter
     lateinit var root: View
 
     override fun onCreateView(
@@ -64,7 +63,7 @@ class PerfilFragment : Fragment() {
     private fun recyclerView() {
         val myrv = root.findViewById(R.id.recyclerRecientesPerfil) as RecyclerView
         myAdapter =
-            activity?.applicationContext?.let { RecyclerViewAdapter(it, libros, this, "perfil") }!!
+            activity?.applicationContext?.let { LibrosAdapter(it, libros, this, "perfil") }!!
         myrv.layoutManager =
             LinearLayoutManager(root.context, LinearLayoutManager.HORIZONTAL, false);
         myrv.adapter = myAdapter
@@ -74,7 +73,7 @@ class PerfilFragment : Fragment() {
     private fun recyclerView2() {
         val myrv = root.findViewById(R.id.recyclerSubidasPerfil) as RecyclerView
         myAdapter2 = activity?.applicationContext?.let {
-            RecyclerViewAdapter(
+            LibrosAdapter(
                 it,
                 librosSubidos,
                 this,
@@ -100,8 +99,14 @@ class PerfilFragment : Fragment() {
                 libro?.let {
                     libros.add(it)
                     libros.shuffle()
-                    librosSubidos.add(it)
-                    librosSubidos.shuffle()
+                    try {
+                        if (it.usuario == (activity as MainActivity).usuarioLogueado) {
+                            librosSubidos.add(it)
+                            //librosSubidos.shuffle()
+                        }
+                    } catch (e: Exception) {
+                    }
+
                 }
                 myAdapter.notifyDataSetChanged()
                 myAdapter2.notifyDataSetChanged()

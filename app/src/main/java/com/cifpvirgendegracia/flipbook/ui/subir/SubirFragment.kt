@@ -181,7 +181,11 @@ class SubirFragment : Fragment() {
 
     @SuppressLint("MissingPermission")
     private fun abrirDialogoMapa() {
-
+        Toast.makeText(
+            activity,
+            "Mantén pulsado el marcador y arrástralo a la ubicación deseada.",
+            Toast.LENGTH_SHORT
+        ).show()
         val dialog = Dialog(activity as Activity)
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)

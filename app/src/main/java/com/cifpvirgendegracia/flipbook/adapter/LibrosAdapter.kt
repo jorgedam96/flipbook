@@ -17,13 +17,13 @@ import com.cifpvirgendegracia.flipbook.ui.detalle.DetalleLibroFragment
 import com.cifpvirgendegracia.flipbook.util.Utilidades
 
 
-class RecyclerViewAdapter(
+class LibrosAdapter(
     private val mContext: Context,
     mData: List<Libro>,
     private val view: Fragment,
     private val vista: String
 ) :
-    RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>() {
+    RecyclerView.Adapter<LibrosAdapter.MyViewHolder>() {
     private var mData: List<Libro> = mData
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view: View
@@ -37,7 +37,9 @@ class RecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+
         holder.tv_book_title.text = mData[position].titulo
+
         holder.autor.text = mData[position].autor
         holder.img_book_thumbnail.setImageBitmap(Utilidades.StringToBitMap(mData[position].foto))
         holder.cardView.setOnClickListener {

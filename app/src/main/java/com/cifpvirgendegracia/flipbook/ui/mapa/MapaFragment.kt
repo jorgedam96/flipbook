@@ -63,7 +63,11 @@ class MapaFragment : Fragment(), OnMapReadyCallback {
         database = FirebaseDatabase.getInstance().getReference("libros")
         storage = FirebaseStorage.getInstance()
         storageReference = storage!!.reference
-
+        Toast.makeText(
+            activity,
+            "Mantén pulsado un libro para ver su detalle.",
+            Toast.LENGTH_SHORT
+        ).show()
         return root
     }
 
@@ -117,7 +121,6 @@ class MapaFragment : Fragment(), OnMapReadyCallback {
                     }
 
                     override fun onMarkerDragEnd(marker: Marker) {
-                        //TODO volver a poner el marcador en su sitio
                         marker.position = mapMarcadoresPosicion.get(marker.id)
                     }
 

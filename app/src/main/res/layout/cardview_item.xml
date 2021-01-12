@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:clickable="true"
+    android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
     cardview:cardElevation="0dp">
 
@@ -14,27 +15,25 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            cardview:cardCornerRadius="8dp">
 
             <ImageView
                 android:id="@+id/book_img_id"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
-                android:background="#2d2d2d"
-                android:scaleType="centerCrop" />
+                android:background="@color/transparent"
+                android:scaleType="fitCenter" />
 
 
-        </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/book_title_id"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:ellipsize="end"
             android:fontFamily="@font/roboto_bold"
             android:gravity="center"
+            android:maxLines="1"
+
             android:text="Book Title"
             android:textColor="#2d2d2d"
             android:textSize="14sp" />
@@ -43,9 +42,12 @@
             android:id="@+id/book_autor"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:ellipsize="end"
             android:fontFamily="@font/roboto_light"
             android:gravity="center"
-            android:text="Book Title"
+            android:maxLines="1"
+
+            android:text="Book Autor"
             android:textColor="#2d2d2d"
             android:textSize="12sp" />
 
