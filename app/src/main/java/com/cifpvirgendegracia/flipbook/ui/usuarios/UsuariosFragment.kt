@@ -18,7 +18,6 @@ class UsuariosFragment : Fragment() {
     ): View? {
 
         val root = inflater.inflate(R.layout.fragment_usuarios, container, false)
-       // val textView: TextView = root.findViewById(R.id.text_notifications)
 
         return root
     }

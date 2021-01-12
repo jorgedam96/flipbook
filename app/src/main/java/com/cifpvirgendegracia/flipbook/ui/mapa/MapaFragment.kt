@@ -108,7 +108,7 @@ class MapaFragment : Fragment(), OnMapReadyCallback {
                 mMap.setOnMarkerDragListener(object : GoogleMap.OnMarkerDragListener {
                     override fun onMarkerDragStart(marker: Marker) {
                         //Ver detalles del libro.
-                        val nextFrag = DetalleLibroFragment(mapMarcadoresLibros.get(marker))
+                        val nextFrag = DetalleLibroFragment(mapMarcadoresLibros.get(marker), "mapa")
                         activity!!.supportFragmentManager.beginTransaction()
                             .replace(R.id.map, nextFrag, "findThisFragment")
                             .addToBackStack(null)
