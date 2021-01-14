@@ -33,6 +33,11 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
 
+/**
+ * Mapa fragment
+ *
+ * @constructor Create empty Mapa fragment
+ */
 class MapaFragment : Fragment(), OnMapReadyCallback {
 
     private val TAG = "LOG"
@@ -47,6 +52,14 @@ class MapaFragment : Fragment(), OnMapReadyCallback {
     var mapMarcadoresPosicion: HashMap<String, LatLng> = HashMap()
 
 
+    /**
+     * On create view
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -63,10 +76,19 @@ class MapaFragment : Fragment(), OnMapReadyCallback {
         database = FirebaseDatabase.getInstance().getReference("libros")
         storage = FirebaseStorage.getInstance()
         storageReference = storage!!.reference
-
+        Toast.makeText(
+            activity,
+            "Mantén pulsado un libro para ver su detalle.",
+            Toast.LENGTH_SHORT
+        ).show()
         return root
     }
 
+    /**
+     * On map ready
+     *
+     * @param googleMap
+     */
     override fun onMapReady(googleMap: GoogleMap?) {
         mMap = googleMap!!
         verMarcadores()
@@ -74,6 +96,10 @@ class MapaFragment : Fragment(), OnMapReadyCallback {
 
     }
 
+    /**
+     * Ver marcadores
+     *
+     */
     private fun verMarcadores() {
         val childEventListener = object : ChildEventListener {
             override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
@@ -108,7 +134,7 @@ class MapaFragment : Fragment(), OnMapReadyCallback {
                 mMap.setOnMarkerDragListener(object : GoogleMap.OnMarkerDragListener {
                     override fun onMarkerDragStart(marker: Marker) {
                         //Ver detalles del libro.
-                        val nextFrag = DetalleLibroFragment(mapMarcadoresLibros.get(marker))
+                        val nextFrag = DetalleLibroFragment(mapMarcadoresLibros.get(marker), "mapa")
                         activity!!.supportFragmentManager.beginTransaction()
                             .replace(R.id.map, nextFrag, "findThisFragment")
                             .addToBackStack(null)
@@ -117,7 +143,6 @@ class MapaFragment : Fragment(), OnMapReadyCallback {
                     }
 
                     override fun onMarkerDragEnd(marker: Marker) {
-                        //TODO volver a poner el marcador en su sitio
                         marker.position = mapMarcadoresPosicion.get(marker.id)
                     }
 
@@ -151,6 +176,11 @@ class MapaFragment : Fragment(), OnMapReadyCallback {
     }
 
 
+    /**
+     * Cargar loc
+     *
+     * @param mMap
+     */
     private fun cargarLoc(mMap: GoogleMap) {
         if (ActivityCompat.checkSelfPermission(
                 root.context,

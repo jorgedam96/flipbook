@@ -44,6 +44,11 @@ import com.journeyapps.barcodescanner.CaptureActivity
 import java.io.ByteArrayOutputStream
 
 
+/**
+ * Subir fragment
+ *
+ * @constructor Create empty Subir fragment
+ */
 class SubirFragment : Fragment() {
 
     private lateinit var marcador: Marker
@@ -65,6 +70,14 @@ class SubirFragment : Fragment() {
     var storage: FirebaseStorage? = null
     var storageReference: StorageReference? = null
 
+    /**
+     * On create view
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -93,6 +106,10 @@ class SubirFragment : Fragment() {
         return root
     }
 
+    /**
+     * Listeners
+     *
+     */
     private fun listeners() {
         btnQR.setOnClickListener {
             escanerQR()
@@ -130,6 +147,10 @@ class SubirFragment : Fragment() {
         }
     }
 
+    /**
+     * Subir
+     *
+     */
     private fun subir() {
         if (fotoCambiada && !etTitulo.text.toString()
                 .isEmpty() && !etISBN.text.toString().isEmpty() && !etAutor.text.toString()
@@ -179,9 +200,17 @@ class SubirFragment : Fragment() {
         }
     }
 
+    /**
+     * Abrir dialogo mapa
+     *
+     */
     @SuppressLint("MissingPermission")
     private fun abrirDialogoMapa() {
-
+        Toast.makeText(
+            activity,
+            "Mantén pulsado el marcador y arrástralo a la ubicación deseada.",
+            Toast.LENGTH_SHORT
+        ).show()
         val dialog = Dialog(activity as Activity)
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -244,6 +273,10 @@ class SubirFragment : Fragment() {
     }
 
 
+    /**
+     * Abrir camara
+     *
+     */
     private fun abrirCamara() {
         val values = ContentValues()
         values.put(MediaStore.Images.Media.TITLE, "New Picture")
@@ -259,6 +292,10 @@ class SubirFragment : Fragment() {
     }
 
 
+    /**
+     * Spinner
+     *
+     */
     private fun spinner() {
         if (spinner != null) {
             val adapter = ArrayAdapter(
@@ -283,6 +320,10 @@ class SubirFragment : Fragment() {
         }
     }
 
+    /**
+     * Escaner q r
+     *
+     */
     private fun escanerQR() {
 
         val integrator = IntentIntegrator(activity).apply {
@@ -314,6 +355,13 @@ class SubirFragment : Fragment() {
         })
     }
 
+    /**
+     * On activity result
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         //called when image was captured from camera intent
         if (resultCode == Activity.RESULT_OK) {
@@ -325,6 +373,12 @@ class SubirFragment : Fragment() {
         }
     }
 
+    /**
+     * Redimensionar
+     *
+     * @param image
+     * @return
+     */
     private fun redimensionar(image: Drawable): Drawable? {
         val b = (image as BitmapDrawable).bitmap
         val bitmapResized = Utilidades.resize(b, 500, 500)

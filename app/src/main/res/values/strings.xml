@@ -19,7 +19,7 @@
     <string name="titulo">Titulo</string>
     <string name="autor">Autor</string>
     <string name="genero">Género</string>
-    <string name="isbn">ISBN</string>
+    <string name="isbn" translatable="false">ISBN</string>
     <string name="escanear">Escanear</string>
     <string name="subir_libro">Subir libro</string>
     <string name="escaneando">Escaneando código...</string>
@@ -37,8 +37,9 @@
         <item>Poco legible</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="Reservar">Reservar</string>
     <string name="voz">Voz</string>
     <string name="los_m_s_populares">Los más populares</string>
+    <string name="Borrar">Borrar</string>
 </resources>

@@ -20,12 +20,22 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.OAuthProvider
 
 
+/**
+ * Login activity
+ *
+ * @constructor Create empty Login activity
+ */
 class  LoginActivity : AppCompatActivity() {
     private lateinit var etUsuario: EditText
     private lateinit var etPass: EditText
     private val RC_SIGN_IN = 123
 
 
+    /**
+     * On create
+     *
+     * @param savedInstanceState
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -61,6 +71,11 @@ class  LoginActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Login email
+     *
+     * @param intent
+     */
     private fun loginEmail(intent: Intent) {
         if (!etPass.text.isEmpty() && !etUsuario.text.isEmpty()) {
             try {
@@ -87,6 +102,13 @@ class  LoginActivity : AppCompatActivity() {
     }
 
 
+    /**
+     * On activity result
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -99,6 +121,11 @@ class  LoginActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Handle sign in result
+     *
+     * @param completedTask
+     */
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             val account = completedTask.getResult(ApiException::class.java)

@@ -1,5 +1,16 @@
 package com.cifpvirgendegracia.flipbook.model
 
+/**
+ * Usuario
+ *
+ * @property id
+ * @property nombre
+ * @property apellido
+ * @property email
+ * @property pass
+ * @property foto
+ * @constructor Create empty Usuario
+ */
 class Usuario(
     var id: String,
     var nombre: String,

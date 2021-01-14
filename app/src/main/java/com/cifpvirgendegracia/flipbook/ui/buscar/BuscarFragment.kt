@@ -5,7 +5,6 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,9 +16,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arlib.floatingsearchview.FloatingSearchView
-import com.cifpvirgendegracia.flipbook.adapter.RecyclerViewAdapter
+import com.cifpvirgendegracia.flipbook.adapter.LibrosAdapter
 import com.cifpvirgendegracia.flipbook.model.Libro
-import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -27,21 +25,33 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
+/**
+ * Buscar fragment
+ *
+ * @constructor Create empty Buscar fragment
+ */
 class BuscarFragment : Fragment() {
 
     lateinit var mSearchView: FloatingSearchView
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var database: DatabaseReference
     var storage: FirebaseStorage? = null
     var storageReference: StorageReference? = null
     var libros = ArrayList<Libro>()
     lateinit var root: View
-    lateinit var myAdapter: RecyclerViewAdapter
+    lateinit var myAdapter: LibrosAdapter
 
+    /**
+     * On create view
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
 
         root = inflater.inflate(R.layout.fragment_buscar, container, false)
@@ -57,6 +67,10 @@ class BuscarFragment : Fragment() {
         return root
     }
 
+    /**
+     * Busqueda escrito
+     *
+     */
     private fun busquedaEscrito() {
         mSearchView.setOnQueryChangeListener { oldQuery, newQuery ->
 
@@ -64,7 +78,9 @@ class BuscarFragment : Fragment() {
             val texto = newQuery.toLowerCase()
             if (texto != "") {
                 libros.forEach {
-                    if (it.autor.toLowerCase().contains(texto) || it.titulo.toLowerCase().contains(texto) || it.genero.toLowerCase().contains(texto)) {
+                    if (it.autor.toLowerCase().contains(texto) || it.titulo.toLowerCase()
+                            .contains(texto) || it.genero.toLowerCase().contains(texto)
+                    ) {
                         lista.add(it)
                     }
                 }
@@ -78,14 +94,29 @@ class BuscarFragment : Fragment() {
         }
     }
 
+    /**
+     * Recycler view
+     *
+     */
     private fun recyclerView() {
         val myrv = root.findViewById(R.id.rvLibros) as RecyclerView
-        myAdapter = activity?.applicationContext?.let { RecyclerViewAdapter(it, libros, this) }!!
+        myAdapter = activity?.applicationContext?.let {
+            LibrosAdapter(
+                it,
+                libros,
+                this,
+                "buscarlibro"
+            )
+        }!!
         myrv.layoutManager = GridLayoutManager(activity?.applicationContext, 3)
         myrv.adapter = myAdapter
         myAdapter.notifyDataSetChanged()
     }
 
+    /**
+     * Consulta libros
+     *
+     */
     private fun consultaLibros() {
         database = FirebaseDatabase.getInstance().getReference("libros")
         storage = FirebaseStorage.getInstance()
@@ -104,32 +135,32 @@ class BuscarFragment : Fragment() {
 
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                TODO("Not yet implemented")
             }
 
             override fun onChildRemoved(snapshot: DataSnapshot) {
-                TODO("Not yet implemented")
             }
 
             override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                TODO("Not yet implemented")
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
             }
         }
         database.addChildEventListener(childEventListener)
 
     }
 
+    /**
+     * Busqueda voz
+     *
+     */
     private fun busquedaVoz() {
         mSearchView.setOnMenuItemClickListener {
 
             val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
             intent.putExtra(
-                    RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                    RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+                RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
             )
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
             intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Di un título, un autor o un género.")
@@ -142,11 +173,18 @@ class BuscarFragment : Fragment() {
         }
     }
 
+    /**
+     * On activity result
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && data != null) {
             val result = data
-                    .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if (result != null) {
                 mSearchView.setSearchText(result[0])
 
@@ -154,7 +192,9 @@ class BuscarFragment : Fragment() {
                 val lista = ArrayList<Libro>()
                 if (voz != "") {
                     libros.forEach {
-                        if (it.autor.toLowerCase().contains(voz) || it.titulo.toLowerCase().contains(voz) || it.genero.toLowerCase().contains(voz)) {
+                        if (it.autor.toLowerCase().contains(voz) || it.titulo.toLowerCase()
+                                .contains(voz) || it.genero.toLowerCase().contains(voz)
+                        ) {
                             lista.add(it)
                         }
                     }

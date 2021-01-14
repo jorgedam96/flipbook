@@ -2,22 +2,30 @@ package com.cifpvirgendegracia.flipbook.ui.detalle
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.view.ViewCompat.animate
 import androidx.fragment.app.Fragment
 import com.cifpvirgendegracia.flipbook.R
 import com.cifpvirgendegracia.flipbook.model.Libro
 import com.cifpvirgendegracia.flipbook.util.Utilidades
-import java.util.*
-import kotlin.collections.ArrayList
+import com.google.firebase.database.*
+import java.lang.Exception
 
 
-class DetalleLibroFragment(val libro: Libro?) : Fragment() {
+/**
+ * Detalle libro fragment
+ *
+ * @property libro
+ * @property vista
+ * @constructor Create empty Detalle libro fragment
+ */
+class DetalleLibroFragment(val libro: Libro?, val vista: String) : Fragment() {
     lateinit var ratingBar: RatingBar
     lateinit var root: View
     lateinit var tvTitulo: TextView
@@ -26,9 +34,19 @@ class DetalleLibroFragment(val libro: Libro?) : Fragment() {
     lateinit var tvDuenio: TextView
     lateinit var ivFoto: ImageView
     lateinit var ivZoom: ImageView
+    lateinit var btnReservar: Button
+    lateinit var btnBorrar: Button
     lateinit var listview: ListView
     lateinit var comentarios: ArrayList<String>
 
+    /**
+     * On create view
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,8 +62,38 @@ class DetalleLibroFragment(val libro: Libro?) : Fragment() {
         tvDuenio = root.findViewById(R.id.duenioDetalleLibro)
         ivFoto = root.findViewById(R.id.ivFotoDetalleLibro)
         ivZoom = root.findViewById(R.id.zoomDetalle)
+        btnReservar = root.findViewById(R.id.btnReservar)
+        btnBorrar = root.findViewById(R.id.btnBorrarLibro)
 
+        if (vista == "perfilsubidos") {
+            btnReservar.visibility = View.GONE
+            btnBorrar.visibility = View.VISIBLE
 
+            btnBorrar.setOnClickListener {
+                val dialogClickListener =
+                    DialogInterface.OnClickListener { dialog, which ->
+                        when (which) {
+                            DialogInterface.BUTTON_POSITIVE -> {
+                                if (libro != null) {
+                                    borrarLibro(libro.id)
+                                }
+                                activity?.supportFragmentManager?.beginTransaction()?.remove(this)
+                                    ?.commit()
+                            }
+                            DialogInterface.BUTTON_NEGATIVE -> {
+                            }
+                        }
+                    }
+
+                val builder: AlertDialog.Builder = AlertDialog.Builder(context)
+                builder.setCancelable(false)
+                    .setMessage("¿Estás seguro de que quieres borrar el libro?")
+                    .setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener)
+                    .show().window?.setBackgroundDrawableResource(R.color.azul)
+
+            }
+        }
 
         ivFoto.setOnClickListener {
             Log.e("clic", "foto")
@@ -108,6 +156,25 @@ class DetalleLibroFragment(val libro: Libro?) : Fragment() {
 
 
         return root
+    }
+
+    /**
+     * Borrar libro
+     *
+     * @param id
+     */
+    private fun borrarLibro(id: String) {
+
+
+        try {
+            libro?.let {
+                FirebaseDatabase.getInstance().reference
+                    .child("libros").child(it.id)
+            }?.removeValue()
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
 
