@@ -15,10 +15,23 @@ import com.cifpvirgendegracia.flipbook.model.Usuario
 import java.util.ArrayList
 
 
+/**
+ * Usuarios fragment
+ *
+ * @constructor Create empty Usuarios fragment
+ */
 class UsuariosFragment : Fragment() {
 
     lateinit var myAdapter: UsuariosAdapter
 
+    /**
+     * On create view
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

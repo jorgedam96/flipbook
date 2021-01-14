@@ -18,6 +18,15 @@ import com.cifpvirgendegracia.flipbook.ui.detalle.DetalleLibroFragment
 import com.cifpvirgendegracia.flipbook.util.Utilidades
 
 
+/**
+ * Usuarios adapter
+ *
+ * @property mContext
+ * @property view
+ * @constructor
+ *
+ * @param mData
+ */
 class UsuariosAdapter(
     private val mContext: Context,
     mData: List<Usuario>,
@@ -32,6 +41,11 @@ class UsuariosAdapter(
         return MyViewHolder(view)
     }
 
+    /**
+     * Set data
+     *
+     * @param datos
+     */
     fun setData(datos: ArrayList<Usuario>) {
         this.mData = datos
     }
@@ -48,6 +62,13 @@ class UsuariosAdapter(
         return mData.size
     }
 
+    /**
+     * My view holder
+     *
+     * @constructor
+     *
+     * @param itemView
+     */
     class MyViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         var tv_book_title: TextView = itemView.findViewById<View>(R.id.usuarioNombreBuscar) as TextView

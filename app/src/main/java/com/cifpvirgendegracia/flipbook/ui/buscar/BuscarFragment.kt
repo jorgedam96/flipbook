@@ -25,6 +25,11 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
+/**
+ * Buscar fragment
+ *
+ * @constructor Create empty Buscar fragment
+ */
 class BuscarFragment : Fragment() {
 
     lateinit var mSearchView: FloatingSearchView
@@ -35,6 +40,14 @@ class BuscarFragment : Fragment() {
     lateinit var root: View
     lateinit var myAdapter: LibrosAdapter
 
+    /**
+     * On create view
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -54,6 +67,10 @@ class BuscarFragment : Fragment() {
         return root
     }
 
+    /**
+     * Busqueda escrito
+     *
+     */
     private fun busquedaEscrito() {
         mSearchView.setOnQueryChangeListener { oldQuery, newQuery ->
 
@@ -77,6 +94,10 @@ class BuscarFragment : Fragment() {
         }
     }
 
+    /**
+     * Recycler view
+     *
+     */
     private fun recyclerView() {
         val myrv = root.findViewById(R.id.rvLibros) as RecyclerView
         myAdapter = activity?.applicationContext?.let {
@@ -92,6 +113,10 @@ class BuscarFragment : Fragment() {
         myAdapter.notifyDataSetChanged()
     }
 
+    /**
+     * Consulta libros
+     *
+     */
     private fun consultaLibros() {
         database = FirebaseDatabase.getInstance().getReference("libros")
         storage = FirebaseStorage.getInstance()
@@ -125,6 +150,10 @@ class BuscarFragment : Fragment() {
 
     }
 
+    /**
+     * Busqueda voz
+     *
+     */
     private fun busquedaVoz() {
         mSearchView.setOnMenuItemClickListener {
 
@@ -144,6 +173,13 @@ class BuscarFragment : Fragment() {
         }
     }
 
+    /**
+     * On activity result
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && data != null) {

@@ -18,6 +18,13 @@ import com.google.firebase.database.*
 import java.lang.Exception
 
 
+/**
+ * Detalle libro fragment
+ *
+ * @property libro
+ * @property vista
+ * @constructor Create empty Detalle libro fragment
+ */
 class DetalleLibroFragment(val libro: Libro?, val vista: String) : Fragment() {
     lateinit var ratingBar: RatingBar
     lateinit var root: View
@@ -32,6 +39,14 @@ class DetalleLibroFragment(val libro: Libro?, val vista: String) : Fragment() {
     lateinit var listview: ListView
     lateinit var comentarios: ArrayList<String>
 
+    /**
+     * On create view
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -143,6 +158,11 @@ class DetalleLibroFragment(val libro: Libro?, val vista: String) : Fragment() {
         return root
     }
 
+    /**
+     * Borrar libro
+     *
+     * @param id
+     */
     private fun borrarLibro(id: String) {
 
 

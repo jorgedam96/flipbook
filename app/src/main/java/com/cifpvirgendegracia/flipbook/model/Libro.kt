@@ -1,5 +1,19 @@
 package com.cifpvirgendegracia.flipbook.model
 
+/**
+ * Libro
+ *
+ * @property id
+ * @property titulo
+ * @property isbn
+ * @property autor
+ * @property genero
+ * @property foto
+ * @property estado
+ * @property usuario
+ * @property localizacion
+ * @constructor Create empty Libro
+ */
 class Libro(
     var id: String,
     var titulo: String,

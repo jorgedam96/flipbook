@@ -25,6 +25,11 @@ import com.google.zxing.WriterException
 import com.google.zxing.common.BitMatrix
 
 
+/**
+ * Perfil fragment
+ *
+ * @constructor Create empty Perfil fragment
+ */
 class PerfilFragment : Fragment() {
     lateinit var imgQR: ImageView
     lateinit var tvNombre: TextView
@@ -37,6 +42,14 @@ class PerfilFragment : Fragment() {
     lateinit var myAdapter2: LibrosAdapter
     lateinit var root: View
 
+    /**
+     * On create view
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -60,6 +73,10 @@ class PerfilFragment : Fragment() {
         return root
     }
 
+    /**
+     * Recycler view
+     *
+     */
     private fun recyclerView() {
         val myrv = root.findViewById(R.id.recyclerRecientesPerfil) as RecyclerView
         myAdapter =
@@ -70,6 +87,10 @@ class PerfilFragment : Fragment() {
         myAdapter.notifyDataSetChanged()
     }
 
+    /**
+     * Recycler view2
+     *
+     */
     private fun recyclerView2() {
         val myrv = root.findViewById(R.id.recyclerSubidasPerfil) as RecyclerView
         myAdapter2 = activity?.applicationContext?.let {
@@ -86,6 +107,10 @@ class PerfilFragment : Fragment() {
         myAdapter2.notifyDataSetChanged()
     }
 
+    /**
+     * Consulta libros
+     *
+     */
     private fun consultaLibros() {
         database = FirebaseDatabase.getInstance().getReference("libros")
         storage = FirebaseStorage.getInstance()
@@ -135,6 +160,12 @@ class PerfilFragment : Fragment() {
     }
 
 
+    /**
+     * Generar q r
+     *
+     * @param str
+     * @return
+     */
     @Throws(WriterException::class)
     fun generarQR(str: String?): Bitmap? {
         val result: BitMatrix = try {

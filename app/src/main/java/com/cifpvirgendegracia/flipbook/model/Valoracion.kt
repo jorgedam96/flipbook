@@ -1,5 +1,13 @@
 package com.cifpvirgendegracia.flipbook.model
 
+/**
+ * Valoracion
+ *
+ * @property id
+ * @property idUsuario
+ * @property valoracion
+ * @constructor Create empty Valoracion
+ */
 class Valoracion(
     var id: String,
     var idUsuario: String,

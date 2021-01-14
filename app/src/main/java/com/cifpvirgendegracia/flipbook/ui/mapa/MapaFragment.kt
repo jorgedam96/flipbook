@@ -33,6 +33,11 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
 
+/**
+ * Mapa fragment
+ *
+ * @constructor Create empty Mapa fragment
+ */
 class MapaFragment : Fragment(), OnMapReadyCallback {
 
     private val TAG = "LOG"
@@ -47,6 +52,14 @@ class MapaFragment : Fragment(), OnMapReadyCallback {
     var mapMarcadoresPosicion: HashMap<String, LatLng> = HashMap()
 
 
+    /**
+     * On create view
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -71,6 +84,11 @@ class MapaFragment : Fragment(), OnMapReadyCallback {
         return root
     }
 
+    /**
+     * On map ready
+     *
+     * @param googleMap
+     */
     override fun onMapReady(googleMap: GoogleMap?) {
         mMap = googleMap!!
         verMarcadores()
@@ -78,6 +96,10 @@ class MapaFragment : Fragment(), OnMapReadyCallback {
 
     }
 
+    /**
+     * Ver marcadores
+     *
+     */
     private fun verMarcadores() {
         val childEventListener = object : ChildEventListener {
             override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
@@ -154,6 +176,11 @@ class MapaFragment : Fragment(), OnMapReadyCallback {
     }
 
 
+    /**
+     * Cargar loc
+     *
+     * @param mMap
+     */
     private fun cargarLoc(mMap: GoogleMap) {
         if (ActivityCompat.checkSelfPermission(
                 root.context,

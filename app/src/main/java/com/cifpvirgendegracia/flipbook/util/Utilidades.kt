@@ -9,6 +9,12 @@ import java.io.ByteArrayOutputStream
 
 
 object Utilidades {
+    /**
+     * Bit map to string
+     *
+     * @param bitmap
+     * @return
+     */
     fun BitMapToString(bitmap: Bitmap): String {
         val baos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
@@ -16,6 +22,12 @@ object Utilidades {
         return Base64.encodeToString(b, Base64.DEFAULT)
     }
 
+    /**
+     * String to bit map
+     *
+     * @param encodedString
+     * @return
+     */
     fun StringToBitMap(encodedString: String?): Bitmap? {
         return try {
             val encodeByte = Base64.decode(encodedString, Base64.DEFAULT)
@@ -27,8 +39,15 @@ object Utilidades {
     }
 
 
-
-     fun resize(image: Bitmap, maxWidth: Int, maxHeight: Int): Bitmap? {
+    /**
+     * Resize
+     *
+     * @param image
+     * @param maxWidth
+     * @param maxHeight
+     * @return
+     */
+    fun resize(image: Bitmap, maxWidth: Int, maxHeight: Int): Bitmap? {
         var image = image
         return if (maxHeight > 0 && maxWidth > 0) {
             val width = image.width

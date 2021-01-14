@@ -8,11 +8,21 @@ import android.widget.EditText
 import com.google.firebase.auth.FirebaseAuth
 import java.lang.Exception
 
+/**
+ * Registro activity
+ *
+ * @constructor Create empty Registro activity
+ */
 class RegistroActivity : AppCompatActivity() {
     lateinit var etUsuario: EditText
     lateinit var etPass: EditText
 
 
+    /**
+     * On create
+     *
+     * @param savedInstanceState
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registro)

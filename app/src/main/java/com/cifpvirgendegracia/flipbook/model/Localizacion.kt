@@ -1,5 +1,13 @@
 package com.cifpvirgendegracia.flipbook.model
 
+/**
+ * Localizacion
+ *
+ * @property id
+ * @property latitud
+ * @property longitud
+ * @constructor Create empty Localizacion
+ */
 class Localizacion(
     var id: String,
     var latitud: String,
