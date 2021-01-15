@@ -10,7 +10,7 @@ _Estas instrucciones te permitirán obtener una copia del proyecto en funcionami
 
 ## Manual de uso
 
-[Manual de uso](https://github.com/jorgedam96/flipbook/blob/gh-pages/index.md)
+[Manual de uso](https://jorgedam96.github.io/flipbook/)
 
 
 ### Pre-requisitos 📋
